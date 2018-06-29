@@ -1,20 +1,23 @@
-//
 //  ViewController.swift
 //  Todoey
 //
 //  Created by Eunju Tak on 2018. 6. 29..
 //  Copyright © 2018년 Eunju Tak. All rights reserved.
-//
 
 import UIKit
 
 class TodoeyViewController: UITableViewController {
+    
+    let defalts = UserDefaults.standard
 
     var itemArray = ["work","day off","save money","drive"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defalts.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     }
 
     //MARK - TavleView Datasource Methods
@@ -57,6 +60,9 @@ class TodoeyViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //what will happen once the user clicks the Add Item Button on our UIAlert
             self.itemArray.append(textField.text!)
+            
+            self.defalts.set(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData()
         }
         
